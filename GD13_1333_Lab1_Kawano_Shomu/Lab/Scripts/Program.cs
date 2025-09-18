@@ -9,12 +9,18 @@ namespace GD13_1333_Lab1_Kawano_Shomu
         static void Main(string[] args)
         {
 
+
+
+
+            //Lab4
+
+
+
+
             //Lab3
-            {
                 GameManager gm = new GameManager();
                 gm.Play();
 
-            }
 
 
 

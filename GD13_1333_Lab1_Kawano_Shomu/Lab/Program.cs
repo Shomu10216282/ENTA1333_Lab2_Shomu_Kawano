@@ -8,12 +8,18 @@ namespace GD13_1333_Lab1_Kawano_Shomu
 
         static void Main(string[] args)
         {
-            PlayManager playManager = new PlayManager();  
 
-            void OnPointAcquired(int pointValue, int bonusPoints = 0)
+            //Lab3
             {
-                
+                GameManager gm = new GameManager();
+                gm.Play();
+
             }
+
+
+
+
+            //Lab2
 
             //string name = "Shomu Kawano";
             //string today = DateTime.Now.ToString("2025/09/10");
@@ -33,10 +39,6 @@ namespace GD13_1333_Lab1_Kawano_Shomu
             //Console.WriteLine($"Decimal: 100 → Binary: {Convert.ToString(100, 2).PadLeft(8, '0')} → Hex: {100.ToString("X2")}");
             //Console.WriteLine($"Decimal: 255 → Binary: {Convert.ToString(255, 2).PadLeft(8, '0')} → Hex: {255.ToString("X2")}");
             //Console.WriteLine();
-
-            //DieRoller roller = new DieRoller();
-            //int total = roller.RollDice(6, 8, 12, 20);
-
             //Console.WriteLine($"Goodbye from {name} on {today}!");
         }
     }

@@ -1,21 +1,25 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-class GameManager 
+namespace GD13_1333_Lab1_Kawano_Shomu
 {
-    private int score = 0;
-    private void OnPointAcquired()
+    internal class GameManager
     {
-        score++;
-        string gainedMessage = "You gained a point!";
-        Console.WriteLine(gainedMessage);
-    }
+        public void Play()
+        {
+            Console.WriteLine("Welcome");
+            Console.WriteLine("Name: Shomu Kawano");
 
-    public void PlayGame()
-    {
-        Console.WriteLine("Game Started!");
-        OnPointAcquired();
-        OnPointAcquired();
-        OnPointAcquired();
-        Console.WriteLine($"Total Score: {score}");
+
+            DieRoller roller = new DieRoller();
+            int total = roller.Roll();
+
+
+            Console.WriteLine("Total Score: " + total);
+
+        }
     }
 }

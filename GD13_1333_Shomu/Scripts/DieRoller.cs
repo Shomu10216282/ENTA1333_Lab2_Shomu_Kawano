@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GD13_1333_Lab_Shomu
+namespace GD13_1333_Shomu.Scripts
 {
-    class DieRoller
+    internal class DieRoller
     {
         private int sides;
         private Random rand = new Random();

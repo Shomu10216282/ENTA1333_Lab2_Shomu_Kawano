@@ -1,10 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GD13_1333_Lab_Shomu
+namespace GD13_1333_Shomu.Scripts
 {
     internal class GameManager
     {
@@ -70,7 +67,7 @@ namespace GD13_1333_Lab_Shomu
             string again = Console.ReadLine().ToLower();
             if (again == "yes")
             {
-                Play(); 
+                Play();
             }
             else
             {
@@ -118,8 +115,8 @@ namespace GD13_1333_Lab_Shomu
 
         private void DecideWinner()
         {
-            int playerRoll = human.Rolls[^1]; 
-            int compRoll = computer.Rolls[^1]; 
+            int playerRoll = human.Rolls[human.Rolls.Count - 1];
+            int compRoll = computer.Rolls[computer.Rolls.Count - 1];
 
             Console.WriteLine($"\nRound Result:");
             Console.WriteLine($"{human.Name}: {playerRoll}");
@@ -167,4 +164,3 @@ namespace GD13_1333_Lab_Shomu
         }
     }
 }
-

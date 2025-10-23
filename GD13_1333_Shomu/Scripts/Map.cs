@@ -4,58 +4,101 @@ namespace GD13_1333_Shomu.Scripts
 {
     internal class Map
     {
-        private Room[,] rooms;
-        private int playerX;
-        private int playerY;
-        private Random rnd = new Random();
+        private Room[,] grid;
+        public int Rows { get; private set; }
+        public int Cols { get; private set; }
+
+        public int PlayerRow { get; private set; }
+        public int PlayerCol { get; private set; }
+
+        private Random rand = new Random();
 
         public Map()
         {
-            rooms = new Room[3, 3];
-            GenerateMap();
-            playerX = 1;
-            playerY = 1; 
+            Rows = rand.Next(3, 6); 
+            Cols = rand.Next(3, 6); 
+            grid = new Room[Rows, Cols];
+
+            GenerateRooms();
+
+            PlayerRow = Rows / 2;
+            PlayerCol = Cols / 2;
         }
 
-        private void GenerateMap()
+        private void GenerateRooms()
         {
-            for (int y = 0; y < 3; y++)
+            for (int r = 0; r < Rows; r++)
             {
-                for (int x = 0; x < 3; x++)
+                for (int c = 0; c < Cols; c++)
                 {
-                    int r = rnd.Next(3);
-                    if (r == 0)
-                        rooms[y, x] = new NormalRoom();
-                    else if (r == 1)
-                        rooms[y, x] = new TreasureRoom();
-                    else
-                        rooms[y, x] = new EncounterRoom();
+                    int p = rand.Next(100);
+                    if (p < 60) grid[r, c] = new NormalRoom();
+                    else if (p < 80) grid[r, c] = new TreasureRoom(GenerateRandomItem());
+                    else grid[r, c] = new EncounterRoom(rand.Next(8, 26)); 
                 }
             }
+
+            grid[Rows / 2, Cols / 2] = new NormalRoom();
         }
 
-        public Room GetCurrentRoom() => rooms[playerY, playerX];
-
-        public void Move(string direction)
+        private Item GenerateRandomItem()
         {
-            switch (direction.ToLower())
+            int p = rand.Next(100);
+            if (p < 50) return new Potion("Small Healing Potion", 4, 8); 
+            else return new Weapon("Rusty Sword", 2); 
+        }
+
+        public void DrawMap()
+        {
+            Console.WriteLine($"\nMap ({Rows} x {Cols}):");
+            for (int r = 0; r < Rows; r++)
             {
-                case "n":
-                    if (playerY > 0) playerY--; else Console.WriteLine("You can't go further north.");
-                    break;
-                case "s":
-                    if (playerY < 2) playerY++; else Console.WriteLine("You can't go further south.");
-                    break;
-                case "e":
-                    if (playerX < 2) playerX++; else Console.WriteLine("You can't go further east.");
-                    break;
-                case "w":
-                    if (playerX > 0) playerX--; else Console.WriteLine("You can't go further west.");
-                    break;
-                default:
-                    Console.WriteLine("Invalid direction.");
-                    break;
+                for (int c = 0; c < Cols; c++)
+                {
+                    if (r == PlayerRow && c == PlayerCol)
+                    {
+                        Console.Write("[P] ");
+                    }
+                    else
+                    {
+                        char ch = grid[r, c].MapSymbol;
+                        Console.Write($"[{ch}] ");
+                    }
+                }
+                Console.WriteLine();
             }
+            Console.WriteLine("Legend: P=You, .=Empty, T=Treasure, E=Enemy");
+        }
+
+        public Room GetCurrentRoom() => grid[PlayerRow, PlayerCol];
+
+        public bool TryMove(string dir)
+        {
+            dir = dir.ToUpper();
+            int newR = PlayerRow;
+            int newC = PlayerCol;
+            switch (dir)
+            {
+                case "N": newR = PlayerRow - 1; break;
+                case "S": newR = PlayerRow + 1; break;
+                case "E": newC = PlayerCol + 1; break;
+                case "W": newC = PlayerCol - 1; break;
+                default: return false;
+            }
+            if (newR < 0 || newR >= Rows || newC < 0 || newC >= Cols)
+                return false;
+
+            PlayerRow = newR;
+            PlayerCol = newC;
+            return true;
+        }
+
+        public bool AnyUnclearedEncounters()
+        {
+            for (int r = 0; r < Rows; r++)
+                for (int c = 0; c < Cols; c++)
+                    if (grid[r, c] is EncounterRoom er && !er.IsCleared) return true;
+            return false;
         }
     }
 }
